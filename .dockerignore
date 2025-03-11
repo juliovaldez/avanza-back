@@ -1,0 +1,6 @@
+
+# Ignorar archivos de control de versiones
+.git
+.gitignore
+# Ignorar archivos de configuración de Docker
+.dockerignore
