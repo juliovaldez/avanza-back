@@ -36,15 +36,17 @@ class User(AbstractUser, TimeStampedModel,SoftDeleteModel):
     first_name = models.CharField(max_length=30, blank=False, null=False)  
     email = models.EmailField(unique=True)
     pass_token=models.CharField(max_length=255,blank=True,null=True)
-
+    time_zone=models.CharField(max_length=255,default="America/Mexico_City")
+    
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ["email","first_name"]
     FILTER_SORT_ORDER_FIELDS=["id","first_name","email","groups"]
-    
+
     class Meta:
         ordering=['-id']
+        
 
     def __str__(self):
         return self.email
@@ -54,4 +56,9 @@ class User(AbstractUser, TimeStampedModel,SoftDeleteModel):
         self.save()
 
 
-
+class Groups:
+    PROVEDOR = 2
+    ALMACEN = 1
+    TECNICO = 3
+    CONSUMO= 4
+    FIX= 5

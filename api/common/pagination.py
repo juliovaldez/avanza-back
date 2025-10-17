@@ -13,10 +13,11 @@ class Pagination(PageNumberPagination):
 
     def paginate_queryset(self, queryset, request: Request, view=None):
         self.total_count=getattr(view, "total_count",None)
-        all_requested = request.query_params.get("all", "").lower() in ["true", "1", "yes"]
+        all_requested = request.query_params.get("isLoadingAll", "").lower() in ["true", "1", "yes"]
         self.page_size = (queryset.count() or self.page_size) if all_requested else (self.get_page_size(request) or self.page_size)
         paginator = self.django_paginator_class(queryset, self.page_size)
         page_number = self.get_page_number(request, paginator) or 1
+
         try:
             self.page = paginator.page(page_number)
         except (InvalidPage, EmptyPage):

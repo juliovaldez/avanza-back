@@ -1,0 +1,18 @@
+from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainSlidingView,
+    TokenRefreshSlidingView,
+)
+from apps.users.routes import (user_urls,auth_urls,groups_urls,permissions_urls)
+
+
+
+urlpatterns = [
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path("auth/token/", TokenObtainSlidingView.as_view()),
+    path("auth/token/refresh/", TokenRefreshSlidingView.as_view()),
+    path("user/", include(user_urls)),
+    path("auth/", include(auth_urls)),
+    path("group/", include(groups_urls)),
+    path("permission/", include(permissions_urls)),
+]

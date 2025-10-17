@@ -1,17 +1,14 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group
 from apps.users.models import User
-from apps.inventory.api.serializers.inventory_profile_serializer import InventoryProfileSerializer
 from api.common.base_models import BaseModelSerializer
 
 class UserSerializer(BaseModelSerializer):
     groups = serializers.PrimaryKeyRelatedField(many=True, queryset=Group.objects.all(),required=False)
-   # inventory_profile = serializers.PrimaryKeyRelatedField(read_only=True)
-    inventory_profile = InventoryProfileSerializer(read_only=True)
     
     class Meta(BaseModelSerializer.Meta):
         model = User
-        fields = ["id","username", "email", "first_name", "last_name", "groups","inventory_profile"]
+        fields = ["id","username", "email", "first_name", "last_name", "groups"]
 
 
 

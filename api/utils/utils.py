@@ -2,7 +2,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 
-def json_response(data,message:str=None,errors=None,status_code=status.HTTP_200_OK,paginate=False)->Response:
+def json_response(data=None,message:str=None,errors=None,status_code=status.HTTP_200_OK,paginate=False)->Response:
     response_data = {}
     if message is not None:
         response_data['message'] = message

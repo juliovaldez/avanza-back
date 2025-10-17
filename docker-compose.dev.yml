@@ -1,0 +1,44 @@
+services:
+  django:
+    build:
+      context: .
+      target: sphere_api_dev
+    container_name: sphere_api_dev
+    ports:
+      - 8001:8000
+    env_file: .env
+    volumes:
+      - "./:/app"
+    networks:
+      - sphere_net
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+
+  celery-beat:
+    build:
+      context: .
+      target: sphere_api_dev
+    image: sphere-celery-beat
+    container_name: sphere-celery-beat
+    env_file: .env
+    working_dir: /app
+    volumes:
+      - './:/app'
+    networks:
+      - sphere_net
+    command: sh -c "celery -A sphere_api beat --loglevel=info"
+
+  celery:
+    build:
+      context: .
+      target: sphere_api_dev
+    image: sphere-celery
+    container_name: sphere-celery
+    env_file: .env
+    working_dir: /app
+    volumes:
+      - './:/app'
+    networks:
+      - sphere_net
+    command: sh -c "celery -A sphere_api worker --loglevel=info"
+networks:
+  sphere_net:

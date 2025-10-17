@@ -36,3 +36,5 @@ def send_reset_email(user_id: int):
     msg = EmailMultiAlternatives(subject, "", from_email, to_email)
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+

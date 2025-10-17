@@ -8,6 +8,3 @@ send_activate_account_signal = Signal()
 def send_reset_email_receiver(sender,user_id: int,**kwargs):
     send_reset_email.delay(user_id)
 
-@receiver(send_activate_account_signal)
-def send_activate_account_receiver(sender,user_id: int,**kwargs):
-    send_activate_account(user_id)

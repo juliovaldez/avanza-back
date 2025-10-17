@@ -2,8 +2,8 @@ services:
   django:
     build:
       context: .
-      target: api_dev
-    container_name: admin_api
+      target: sphere_api_prod
+    container_name: sphere_api_prod
     #depends_on:
     #- mysql
     ports:
@@ -11,33 +11,33 @@ services:
     environment:
       MYSQL_USER: "admin_omar"
       MYSQL_USER_PASSWORD: "Chaday.@*"
-      MYSQL_DATABASE: "admin_simbiosys_dev"
+      MYSQL_DATABASE: "sale_sphere_dev"
       MYSQL_HOST: "mysql.simbiosyserver.com"
       MYSQL_PORT: "3306"
       CELERY_BROKER_URL: redis://redis:6379/0
     volumes:
       - "./:/app"
     networks:
-      - admin_net
+      - sphere_net
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
     #command: tail -f /dev/null
 
-  mysql:
-    # mysqldump --no-tablespaces -u admin_omar -p -h mysql.simbiosyserver.com admin_simbiosys > db.sql
-    # mysql -u admin_omar -p -h mysql.simbiosyserver.com admin_simbiosys_dev < db.sql
-    image: mysql
-    ports:
-      - 3308:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: "Chaday.@*"
-      MYSQL_DATABASE: "admin_simbiosys"
-      MYSQL_USER: "admin_omar"
-      MYSQL_PASSWORD: "Chaday.@*"
-    volumes:
-      - admin_vol_mysql:/var/lib/mysql
-      - "./db:/db"
-    networks:
-      - admin_net
+  # mysql:
+  #   # mysqldump --no-tablespaces -u admin_omar -p -h mysql.simbiosyserver.com admin_simbiosys > db.sql
+  #   # mysql -u admin_omar -p -h mysql.simbiosyserver.com admin_simbiosys_dev < db.sql
+  #   image: mysql
+  #   ports:
+  #     - 3308:3306
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: "Chaday.@*"
+  #     MYSQL_DATABASE: "admin_simbiosys"
+  #     MYSQL_USER: "admin_omar"
+  #     MYSQL_PASSWORD: "Chaday.@*"
+  #   volumes:
+  #     - admin_vol_mysql:/var/lib/mysql
+  #     - "./db:/db"
+  #   networks:
+  #     - admin_net
 
   # redis:
   #   image: redis
@@ -89,6 +89,6 @@ services:
   #   command: sh -c "celery -A PowerBi worker --loglevel=info"
 
 networks:
-  admin_net:
+  sphere_net:
 volumes:
-  admin_vol_mysql:
+  sphere_vol_mysql:

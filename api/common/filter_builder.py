@@ -12,23 +12,25 @@ class FilterBuilder():
         return field in getattr(self.model, 'FILTER_SORT_ORDER_FIELDS', [])
 
     def build_filter(self,current_item,is_and=True):
-        if(isinstance(current_item,list) and len(current_item)==3 and isinstance(current_item[0],str)):
-            field,operator,value=current_item
-            return self.build_condition(field,operator,value)
-        operations=Q()
-        for item in current_item:
-            if item=="and":
-                is_and=True
-                continue
-            if item=="or":
-                is_and=False
-                continue
-            dynamic_filters=self.build_filter(item,is_and)
-            if is_and:
-                operations &=dynamic_filters
-            else:
-                operations |=dynamic_filters
-        return (operations)
+        if isinstance(current_item, list):
+            if(len(current_item)==3 and isinstance(current_item[0],str)):
+                field,operator,value=current_item
+                return self.build_condition(field,operator,value)
+            operations=Q()
+            for item in current_item:
+                if item=="and":
+                    is_and=True
+                    continue
+                if item=="or":
+                    is_and=False
+                    continue
+                dynamic_filters=self.build_filter(current_item=item,is_and=is_and)
+                if is_and:
+                    operations &=dynamic_filters
+                else:
+                    operations |=dynamic_filters
+            return (operations)
+        return Q()
     
     def build_condition(self,field,operator,value):
         operation=Q()
@@ -50,6 +52,8 @@ class FilterBuilder():
             operation = Q(**{f"{field}__gte": value})
         elif operator == "<=":
             operation = Q(**{f"{field}__lte": value})
+        elif operator == "isnull":
+            operation = Q(**{f"{field}__isnull": value})
         return operation          
                 
     

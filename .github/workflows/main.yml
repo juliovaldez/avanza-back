@@ -20,7 +20,7 @@ jobs:
       # Paso 3: Construir la imagen Docker
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY_SERVER }}/admin_api:${{ github.sha }} .
+          docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY_SERVER }}/sphere_api:${{ github.sha }} .
 
       # Paso 4: Iniciar sesión en el Azure Container Registry
       - name: Login to Azure Container Registry
@@ -29,4 +29,4 @@ jobs:
       # Paso 5: Push de la imagen Docker al Azure Container Registry
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY_SERVER }}/admin_api:${{ github.sha }}
+          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY_SERVER }}/sphere_api:${{ github.sha }}
