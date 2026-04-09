@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, Permission
-from apps.users.api.serializers.permission_serializers import PermissionSerializer
 from api.common.base_models import BaseModelSerializer
 
 class GroupSerializer(BaseModelSerializer):

@@ -5,8 +5,6 @@ from rest_framework_simplejwt.views import (
 )
 from apps.users.routes import (user_urls,auth_urls,groups_urls,permissions_urls)
 
-
-
 urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path("auth/token/", TokenObtainSlidingView.as_view()),

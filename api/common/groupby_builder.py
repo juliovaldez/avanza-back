@@ -29,7 +29,7 @@ class GroupByBuilder:
 
         
     def field_is_permitted(self,field):
-        return field in getattr(self.model, 'FILTER_SORT_ORDER_FIELDS', []) 
+        return field in getattr(self.model, 'FILTER_SORT_FIELDS', []) 
        
     def apply_all(self):
         if not len(self.group):

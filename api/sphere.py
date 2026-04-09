@@ -1,6 +1,6 @@
-from django.contrib import admin
+from django.contrib import avanza
 
 # Register your models here.
 from apps.users.models import User
 
-admin.site.register(User)
+avanza.site.register(User)

@@ -42,12 +42,11 @@ class User(AbstractUser, TimeStampedModel,SoftDeleteModel):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ["email","first_name"]
-    FILTER_SORT_ORDER_FIELDS=["id","first_name","email","groups"]
+    FILTER_SORT_FIELDS=["id","first_name","email","groups"]
 
     class Meta:
         ordering=['-id']
         
-
     def __str__(self):
         return self.email
     

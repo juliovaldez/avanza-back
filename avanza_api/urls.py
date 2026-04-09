@@ -1,5 +1,5 @@
 """
-URL configuration for sphere_api project.
+URL configuration for avanza_api project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -16,11 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from api import api_urls
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('', lambda request: redirect('/admin/')),
+    path('', lambda request: redirect('/avanza/')),
     path('admin/', admin.site.urls),
-    path('api/',include(api_urls))
+    path('api/',include('api.api_urls')),
 ]

@@ -1,44 +1,71 @@
 services:
-  django:
+  avanza-redis-dev:
+    image: redis:7
+    container_name: avanza_redis_dev
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - avanza_net
+
+  avanza-api-dev:
+    depends_on:
+      - avanza-db-dev
     build:
       context: .
-      target: sphere_api_dev
-    container_name: sphere_api_dev
+      target: avanza_api_dev
+    container_name: avanza_api_dev
     ports:
       - 8001:8000
     env_file: .env
     volumes:
       - "./:/app"
     networks:
-      - sphere_net
+      - avanza_net
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
 
-  celery-beat:
+  avanza-celery-beat-dev:
     build:
       context: .
-      target: sphere_api_dev
-    image: sphere-celery-beat
-    container_name: sphere-celery-beat
+      target: avanza_api_dev
+    image: celery-beat
+    container_name: avanza_celery_beat_dev
     env_file: .env
     working_dir: /app
     volumes:
-      - './:/app'
+      - "./:/app"
     networks:
-      - sphere_net
-    command: sh -c "celery -A sphere_api beat --loglevel=info"
+      - avanza_net
+    command: sh -c "python -m celery -A avanza_api beat --loglevel=info"
 
-  celery:
+  avanza-celery-dev:
     build:
       context: .
-      target: sphere_api_dev
-    image: sphere-celery
-    container_name: sphere-celery
+      target: avanza_api_dev
+    image: celery
+    container_name: avanza_celery_dev
     env_file: .env
     working_dir: /app
     volumes:
-      - './:/app'
+      - "./:/app"
     networks:
-      - sphere_net
-    command: sh -c "celery -A sphere_api worker --loglevel=info"
+      - avanza_net
+    command: sh -c "python -m celery -A avanza_api worker --loglevel=info"
+
+  avanza-db-dev:
+    image: mariadb:10.6
+    container_name: avanza_db_dev
+    restart: always
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - avanza_mysql_data:/var/lib/mysql
+    networks:
+      - avanza_net
+
 networks:
-  sphere_net:
+  avanza_net:
+    external: true
+volumes:
+  avanza_mysql_data:

@@ -9,7 +9,7 @@ class FilterBuilder():
         self.filters = filters
 
     def field_is_permitted(self,field):
-        return field in getattr(self.model, 'FILTER_SORT_ORDER_FIELDS', [])
+        return field in getattr(self.model, 'FILTER_SORT_FIELDS', [])
 
     def build_filter(self,current_item,is_and=True):
         if isinstance(current_item, list):

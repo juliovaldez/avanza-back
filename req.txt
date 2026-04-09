@@ -1,0 +1,12 @@
+Django
+gunicorn
+mysqlclient
+pymysql
+djangorestframework
+djangorestframework_simplejwt
+celery
+django_celery_beat
+redis
+django-cors-headers
+django-oauth-toolkit
+whitenoise

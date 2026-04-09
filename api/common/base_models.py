@@ -81,7 +81,7 @@ class BaseManager(models.Manager):
     
 
 class BaseModel(TimeStampedModel,SoftDeleteModel):
-    comments=models.TextField(blank=True, null=True)
+    notes=models.TextField(blank=True, null=True)
 
     objects= BaseManager()
     SOFT_DELETE = True
@@ -117,6 +117,5 @@ class BaseModelViewSet(BaseMixin):
         return self.serializer_class
     
 class BaseModelSerializer(serializers.ModelSerializer):
-    
     class Meta:
         read_only_fields = ('id','created_at','updated_at','deleted_at')

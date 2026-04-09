@@ -1,94 +1,42 @@
 services:
-  django:
+  avanza-api-prod:
     build:
       context: .
-      target: sphere_api_prod
-    container_name: sphere_api_prod
-    #depends_on:
-    #- mysql
+      target: avanza_api_prod
+    container_name: avanza_api_prod
     ports:
-      - 8001:8000
-    environment:
-      MYSQL_USER: "admin_omar"
-      MYSQL_USER_PASSWORD: "Chaday.@*"
-      MYSQL_DATABASE: "sale_sphere_dev"
-      MYSQL_HOST: "mysql.simbiosyserver.com"
-      MYSQL_PORT: "3306"
-      CELERY_BROKER_URL: redis://redis:6379/0
+      - "8001:8000"
+    env_file: .env
     volumes:
       - "./:/app"
     networks:
-      - sphere_net
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
-    #command: tail -f /dev/null
+      - avanza_net
+    command: sh -c "gunicorn avanza_api.wsgi:application --bind 0.0.0.0:8000"
 
-  # mysql:
-  #   # mysqldump --no-tablespaces -u admin_omar -p -h mysql.simbiosyserver.com admin_simbiosys > db.sql
-  #   # mysql -u admin_omar -p -h mysql.simbiosyserver.com admin_simbiosys_dev < db.sql
-  #   image: mysql
-  #   ports:
-  #     - 3308:3306
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: "Chaday.@*"
-  #     MYSQL_DATABASE: "admin_simbiosys"
-  #     MYSQL_USER: "admin_omar"
-  #     MYSQL_PASSWORD: "Chaday.@*"
-  #   volumes:
-  #     - admin_vol_mysql:/var/lib/mysql
-  #     - "./db:/db"
-  #   networks:
-  #     - admin_net
+  avanza-celery-prod:
+    build:
+      context: .
+      target: avanza_api_prod
+    container_name: avanza_celery_prod
+    env_file: .env
+    volumes:
+      - "./:/app"
+    networks:
+      - avanza_net
+    command: sh -c "celery -A avanza_api worker --loglevel=info"
 
-  # redis:
-  #   image: redis
-  #   ports:
-  #     - "6379:6379"
-  #   networks:
-  #     - admin_net
-
-  # celery-beat:
-  #   build:
-  #     context: .
-  #     target: api_dev
-  #   image: celery-beat
-  #   container_name: celery-beat
-  #   depends_on:
-  #     - redis
-  #   environment:
-  #     MYSQL_USER: 'omar'
-  #     MYSQL_USER_PASSWORD: 'secret'
-  #     MYSQL_DATABASE: 'admin'
-  #     HOST: 'mysql'
-  #     PORT: '3306'
-  #     CELERY_BROKER_URL: redis://redis:6379/0
-  #   volumes:
-  #     - './:/app'
-  #   networks:
-  #     - admin_net
-  #   command: sh -c "celery -A PowerBi beat --loglevel=info"
-
-  # celery:
-  #   build:
-  #     context: .
-  #     target: api_dev
-  #   image: celery
-  #   container_name: celery
-  #   depends_on:
-  #     - redis
-  #   environment:
-  #     MYSQL_USER: 'omar'
-  #     MYSQL_USER_PASSWORD: 'secret'
-  #     MYSQL_DATABASE: 'admin'
-  #     HOST: 'mysql'
-  #     PORT: '3306'
-  #     CELERY_BROKER_URL: redis://redis:6379/0
-  #   volumes:
-  #     - './:/app'
-  #   networks:
-  #     - admin_net
-  #   command: sh -c "celery -A PowerBi worker --loglevel=info"
+  avanza-celery-beat-prod:
+    build:
+      context: .
+      target: avanza_api_prod
+    container_name: avanza_celery_beat_prod
+    env_file: .env
+    volumes:
+      - "./:/app"
+    networks:
+      - avanza_net
+    command: sh -c "celery -A avanza_api beat --loglevel=info"
 
 networks:
-  sphere_net:
-volumes:
-  sphere_vol_mysql:
+  avanza_net:
+    external: true

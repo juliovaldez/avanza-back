@@ -5,14 +5,14 @@ from api.common.base_models import BaseModelSerializer
 
 class UserSerializer(BaseModelSerializer):
     groups = serializers.PrimaryKeyRelatedField(many=True, queryset=Group.objects.all(),required=False)
-    
+
     class Meta(BaseModelSerializer.Meta):
         model = User
         fields = ["id","username", "email", "first_name", "last_name", "groups"]
 
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     groups = serializers.SerializerMethodField()
     permissions = serializers.SerializerMethodField()
 
