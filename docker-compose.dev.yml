@@ -22,7 +22,7 @@ services:
       - "./:/app"
     networks:
       - avanza_net
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "until python -c 'import MySQLdb; MySQLdb.connect(host=\"avanza_db_dev\",user=\"avanza_user\",passwd=\"avanza_pass_dev\")' 2>/dev/null; do echo 'Waiting for DB...'; sleep 2; done && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
 
   avanza-celery-beat-dev:
     build:
