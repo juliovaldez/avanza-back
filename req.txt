@@ -10,3 +10,4 @@ redis
 django-cors-headers
 django-oauth-toolkit
 whitenoise
+Pillow

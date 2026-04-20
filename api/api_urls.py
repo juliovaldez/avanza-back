@@ -3,7 +3,10 @@ from rest_framework_simplejwt.views import (
     TokenObtainSlidingView,
     TokenRefreshSlidingView,
 )
-from apps.users.routes import (user_urls,auth_urls,groups_urls,permissions_urls)
+from apps.users.routes import (user_urls, auth_urls, groups_urls, permissions_urls)
+from apps.testimonials.routes import testimonio_urls
+from apps.casos_exito.routes import caso_exito_urls
+from apps.contacto.routes import contacto_urls
 
 urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
@@ -13,4 +16,7 @@ urlpatterns = [
     path("auth/", include(auth_urls)),
     path("group/", include(groups_urls)),
     path("permission/", include(permissions_urls)),
+    path("testimonial/", include(testimonio_urls)),
+    path("caso-exito/", include(caso_exito_urls)),
+    path("contacto/", include(contacto_urls)),
 ]
