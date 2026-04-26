@@ -60,6 +60,9 @@ LOCAL_APPS = [
     "apps.testimonials",
     "apps.casos_exito",
     "apps.contacto",
+    "apps.sepomex",
+    "apps.catalogs",
+    "apps.propiedades",
 ]
 
 THIRD_APPS = [
