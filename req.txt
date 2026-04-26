@@ -11,3 +11,5 @@ django-cors-headers
 django-oauth-toolkit
 whitenoise
 Pillow
+google-auth
+google-auth-oauthlib

@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshSlidingView,
 )
 from apps.users.routes import (user_urls, auth_urls, groups_urls, permissions_urls)
+from apps.users.api.viewsets.google_auth_view import google_login
 from apps.testimonials.routes import testimonio_urls
 from apps.casos_exito.routes import caso_exito_urls
 from apps.contacto.routes import contacto_urls
@@ -15,6 +16,7 @@ urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path("auth/token/", TokenObtainSlidingView.as_view()),
     path("auth/token/refresh/", TokenRefreshSlidingView.as_view()),
+    path("auth/google/", google_login, name="google-login"),
     path("user/", include(user_urls)),
     path("auth/", include(auth_urls)),
     path("group/", include(groups_urls)),
