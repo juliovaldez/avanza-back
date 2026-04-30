@@ -46,6 +46,11 @@ CSRF_TRUSTED_ORIGINS = [
  
 AUTH_USER_MODEL = "users.User"
 
+AUTHENTICATION_BACKENDS = [
+    "apps.users.backends.EmailOrUsernameBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 # Application definition
 
 BASE_APPS = [
